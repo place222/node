@@ -4,6 +4,7 @@ var exphbs = require('express-handlebars');
 //路由模块
 var account = require('./routes/account');
 var home = require('./routes/home');
+var area = require('./routes/area');
 //解析器
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -101,6 +102,7 @@ app.get('/', function (req, res) {
 });
 app.use('/account', account);
 app.use('/home', home);
+app.use('/area',area);
 
 var server = app.listen(3000, function () {
 
