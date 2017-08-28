@@ -1,0 +1,25 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>登 陆</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/lib/adminlte/css/AdminLTE.css">
+    <link rel="stylesheet" href="/lib/plugins/iCheck/square/blue.css"> {{#each cssList}}
+    <link rel="stylesheet" href="{{this}}"> {{/each}}
+</head>
+
+<body class="hold-transition login-page">
+    {{{body}}}
+</body>
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="/lib/plugins/iCheck/icheck.js"></script>
+{{#each jsList}}
+<script src="{{this}}"></script>
+{{/each}}
+
+</html>
