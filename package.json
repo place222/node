@@ -11,10 +11,15 @@
   "dependencies": {
     "body-parser": "*",
     "bootstrap": "^3.3.7",
+    "connect-flash": "*",
+    "cookie-parser": "*",
     "express": "*",
     "express-handlebars": "*",
+    "express-session": "*",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
-    "mongoose": "^4.11.9"
+    "mongoose": "^4.11.9",
+    "passport": "*",
+    "passport-local": "^1.0.0"
   }
 }
