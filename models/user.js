@@ -20,7 +20,6 @@ var UserSchema = mongoose.Schema({
     isActive: Boolean,
     isDelete: Boolean,
     createTime: Date,
-    createUser: UserSchema,
     userInfomation: UserInformation
 });
 
@@ -32,9 +31,6 @@ var u = new user({
     isActive: true,
     isDelete: false,
     createTime: Date.now(),
-    createUser:{
-        userName:'haha'
-    },
     userInfomation: {
         phone: '1234',
         id: '12332131231',

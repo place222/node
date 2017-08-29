@@ -1,6 +1,9 @@
 var user = require('../models/user');
 var passport = require('passport');
 
+/**
+ * 
+ */
 module.exports.getLogin = function (req, res) {
     res.render('account/login', {
         layout: 'account_layout'
