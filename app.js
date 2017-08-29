@@ -1,30 +1,34 @@
+/**
+ * 模块的依赖
+ */
 var express = require('express');
-//引入express-handlerbars
-var exphbs = require('express-handlebars');
-//路由模块
-var account = require('./routes/account');
-var home = require('./routes/home');
-var area = require('./routes/area');
-//解析器
+var expressStatusMonitor = require('express-status-monitor');
+var session = require('express-session');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-//session
-var session = require('express-session');
-
-//
 var flash = require('connect-flash');
-//passport
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+
+/**
+ * controller
+ */
+var accountController = require('./controllers/account');
+var homeController = require('./controllers/home');
+var areaController = require('./controllers/area');
+
+/**
+ * config
+ */
+var passportConfig = require('./config/passport');
+var handlebarsConfig = require('./config/handlebars');
 
 var app = express();
 
-//添加静态资源文件目录
-app.use(express.static('public'));
-
-
-//session 中间件
-app.use(cookieParser('session_test'));
+/**
+ * 中间件
+ */
+app.use(express.static('public')); //添加静态资源文件目录
+app.use(cookieParser('session_test')); //session 中间件
 app.use(session({
   secret: 'session_test',
   resave: true,
@@ -35,78 +39,25 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-passport.use('local', new LocalStrategy(
-  function (username, password, done) {
-      var user = {
-          id: '1',
-          username: 'admin',
-          password: 'pass'
-      }; // 可以配置通过数据库方式读取登陆账号
-
-      if (username !== user.username) {
-          return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (password !== user.password) {
-          return done(null, false, { message: 'Incorrect password.' });
-      }
-
-      return done(null, user);
-  }
-));
-passport.serializeUser(function (user, done) {//保存user对象
-  done(null, user);//可以通过数据库方式操作
-});
-
-passport.deserializeUser(function (user, done) {//删除user对象
-  done(null, user);//可以通过数据库方式操作
-});
-//模板引擎
-var hbs = exphbs.create({
-  defaultLayout: 'layout',
-  layoutsDir: app.get('views') + '/layouts',
-  partialsDir: app.get('views') + '/partials',
-  helpers: {
-    css: function (str, option) {
-      var cssList = this.cssList || [];
-      str = str.split(/[,，;；]/);
-      // console.log('css: ', str);
-      str.forEach(function (item) {
-        if (cssList.indexOf(item) < 0) {
-          cssList.push(item);
-        }
-      });
-      this.cssList = cssList.concat();
-    },
-    js: function (str, option) {
-      var jsList = this.jsList || [];
-      str = str.split(/[,，;；]/);
-      // console.log('css: ', str);
-      str.forEach(function (item) {
-        if (jsList.indexOf(item) < 0) {
-          jsList.push(item);
-        }
-      });
-      this.jsList = jsList.concat();
-    }
-  }
-})
+//handlebars
 app.set('views', './views');
-app.engine('handlebars', hbs.engine);
+app.engine('handlebars', handlebarsConfig.engine);
 app.set('view engine', 'handlebars');
 
 //body 解析
 app.use(bodyParser());
-//路由模块
-app.get('/', function (req, res) {
-  res.render('index');
-});
-app.use('/account', account);
-app.use('/home', home);
-app.use('/area',area);
 
+app.use(expressStatusMonitor());
+/**
+ * controller route
+ */
+app.get('/', passportConfig.isAuthenticated, homeController.Index);
+app.get('/account/login', accountController.getLogin);
+app.post('/account/login', accountController.postLogin);
+app.get('/account/logout',accountController.Logout);
 var server = app.listen(3000, function () {
 
-  var host = server.address().address;  
+  var host = server.address().address;
   var port = server.address().port;
 
   console.log('Example app listening at http://%s:%s', host, port);

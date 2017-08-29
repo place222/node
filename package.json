@@ -16,10 +16,18 @@
     "express": "*",
     "express-handlebars": "*",
     "express-session": "*",
+    "express-status-monitor": "^1.0.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "mongoose": "^4.11.9",
     "passport": "*",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
   }
 }
