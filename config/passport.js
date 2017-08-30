@@ -3,27 +3,22 @@
  */
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
+var User = require('../models/user');
 passport.use('local', new LocalStrategy(
     function (username, password, done) {
-        var user = {
-            id: '1',
-            username: 'admin',
-            password: 'pass'
-        }; // 可以配置通过数据库方式读取登陆账号
-
-        if (username !== user.username) {
-            return done(null, false, {
-                message: 'Incorrect username.'
-            });
-        }
-        if (password !== user.password) {
-            return done(null, false, {
-                message: 'Incorrect password.'
-            });
-        }
-
-        return done(null, user);
+        console.log(username);
+        console.log(password);
+        User.findOne({
+            userName: username,
+            passWord: password
+        }, function (err, user) {
+            if (err)
+                return done(null, false, {
+                    message: 'invalid login'
+                });
+            console.log(user);
+            return done(null, user);
+        });
     }
 ));
 

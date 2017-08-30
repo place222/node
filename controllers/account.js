@@ -32,5 +32,9 @@ module.exports.postLogin = function (req, res, next) {
 };
 
 module.exports.Logout = function (req, res) {
-    
+
+}
+
+module.exports.userList = function (req, res) {
+    res.render('account/list',{layout:false});
 }

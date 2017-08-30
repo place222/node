@@ -53,6 +53,7 @@ app.use(expressStatusMonitor());
  */
 app.get('/', passportConfig.isAuthenticated, homeController.Index);
 app.get('/account/login', accountController.getLogin);
+app.get('/account/list', accountController.userList);
 app.post('/account/login', accountController.postLogin);
 app.get('/account/logout',accountController.Logout);
 var server = app.listen(3000, function () {
